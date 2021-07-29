@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title>前端面试题--CSS篇(一)</title>
+      <link href="/2021/07/29/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E9%A2%98-CSS%E7%AF%87-%E4%B8%80/"/>
+      <url>/2021/07/29/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E9%A2%98-CSS%E7%AF%87-%E4%B8%80/</url>
+      
+        <content type="html"><![CDATA[<H3> px、em和rem的区别 </H3><ol><li><p>px：像素（Pixel），相对长度单位。它不随其它元素的变化而变化。</p></li><li><p>em：相对长度单位，相对于当前对象内文本的字体尺寸。任意浏览器的默认字体高都是16px，所以未经调整的浏览器都符合: <code>1em=16px</code>。<br>它的特点是：它的值并不是固定的；它会继承父级元素的字体大小。例如:</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div style=&quot;font-size:20px;&quot;&gt;</span><br><span class="line">    &lt;p style=&quot;font-size:1em;&quot;&gt;这里1em=20px&lt;/p&gt;</span><br><span class="line">    &lt;p style=&quot;font-size:2em;&quot;&gt;这里2em=40px&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure><p>上面的例子就说明了<code>em</code>的值并非固定的，他是根据父元素的字体大小来决定的。如果父元素设置了<code>font-size:20px</code>，那么<code>1em=20px</code>，<code>2em=40px</code>；如果父元素设置了<code>font-size:30px</code>，那么<code>1em=30px</code>，<code>2em=60px</code>。依次类推。</p></li><li><p>rem：是<code>CSS3</code>新增的一个相对单位，它的值并不是固定的，但相对的只是<code>HTML</code>根元素。任意浏览器的默认字体高都是<code>16px</code>，所以未经调整的浏览器都符合: <code>1rem=16px</code>。例如：</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html style=&quot;font-size:100px;&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">     &lt;p style=&quot;font-size:1rem;&quot;&gt;这里1rem=100px&lt;/p&gt;</span><br><span class="line">     &lt;div style=&quot;font-size:50px;&quot;&gt;</span><br><span class="line">          &lt;p style=&quot;font-size:2rem;&quot;&gt;这里2rem=200px&lt;/p&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure><p>上面的例子说明了，<code>rem</code>的值只受到根节点<code>html</code>的字体大小影响，并不受父元素字体大小的影响。如果根节点<code>html</code>设置了<code>font-size:100px</code>，那么<code>1rem=100px，2rem=200px</code>；如果根节点<code>html</code>设置了<code>font-size:200px，那么1rem=200px，2rem=400px</code>。依次类推。</p></li></ol><p>注意：<br>谷歌浏览器chrome强制最小字体为<code>12px</code>，因此即使设置了小于<code>12px</code>的值，也会显示成<code>12px</code>。因此，当你给<code>html</code>设置<code>font-size:10px</code>时，<code>1rem</code>并不是等于<code>10px</code>，而是等于<code>12px</code>。</p><H3> 垂直居中的方法 </H3><ol><li><p>flex + margin (强烈推荐)</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.outer &#123;</span><br><span class="line">    display: flex;</span><br><span class="line"> &#125;</span><br><span class="line">.inner &#123;</span><br><span class="line">    background: silver;</span><br><span class="line">    margin: auto;</span><br><span class="line"> &#125;</span><br><span class="line">&lt;div class=&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;inner&quot;&gt;test&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></li><li><p>flex</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.outer &#123;</span><br><span class="line">    display: flex;</span><br><span class="line">    justify-content: center;</span><br><span class="line">    align-items: center;</span><br><span class="line"> &#125;</span><br><span class="line">.inner &#123;</span><br><span class="line">    background: silver;</span><br><span class="line"> &#125;</span><br><span class="line">&lt;div class=&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;inner&quot;&gt;test&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></li><li><p>translate</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.outer &#123;</span><br><span class="line">    position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.inner &#123;</span><br><span class="line">    background: silver;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 50%;</span><br><span class="line">    left: 50%;</span><br><span class="line">    transform: translate(-50%,-50%);</span><br><span class="line">    text-align: center;</span><br><span class="line"> &#125;</span><br><span class="line">&lt;div class=&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;inner&quot;&gt;test&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></li><li><p>display:inline-block结合:after</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.outer &#123;</span><br><span class="line">    text-align:center;</span><br><span class="line"> &#125;</span><br><span class="line">.inner &#123;</span><br><span class="line">    background: silver;</span><br><span class="line">    display:inline-block;</span><br><span class="line"> &#125;</span><br><span class="line"> .outer:after&#123;</span><br><span class="line">    content:&#x27;&#x27;;</span><br><span class="line"> &#125;</span><br><span class="line">&lt;div class=&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;inner&quot;&gt;test&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></li><li><p>display:-webkit-box</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.outer &#123;</span><br><span class="line">    display: -webkit-box;</span><br><span class="line">    -webkit-box-pack:center;</span><br><span class="line">    -webkit-box-align:center;</span><br><span class="line">    -webkit-box-orient: vertical;</span><br><span class="line">    text-align: center</span><br><span class="line"> &#125;</span><br><span class="line">&lt;div class=&quot;outer&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;inner&quot;&gt;test&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></li></ol><p>好了，方法还是很多的，大家择优选择吧！</p><H3> BFC 及其应用 </H3><ol><li><p>BFC 概念<br>BFC 就是块级格式上下文，是页面盒模型布局中的一种<code>CSS</code>渲染模式，具有<code>BFC</code>特性的元素可以看作是隔离了的独立容器，容器里面的元素不会在布局上影响到外面的元素，并且<code>BFC</code>具有普通容器所没有的一些特性。</p></li><li><p>创建 BFC 的方式及作用</p><ul><li>创建 BFC 的方式有：<ul><li>body 根元素</li><li>浮动元素：float 除 none 以外的值</li><li>绝对定位元素：position (absolute、fixed)</li><li>display 为 inline-block、table-cells、flex</li><li>overflow 除了 visible 以外的值 (hidden、auto、scroll)</li></ul></li><li>BFC 主要的作用是：<ul><li>清除浮动</li><li>防止同一 BFC 容器中的相邻元素间的外边距重叠问题</li></ul></li></ul></li><li><p>BFC 特性及应用</p><ul><li><p>同一个 BFC 下外边距会发生折叠</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;head&gt;</span><br><span class="line">div&#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    background: lightblue;</span><br><span class="line">    margin: 100px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure><p>因为两个<code>div</code>元素都处于同一个<code>BFC</code>容器下 (这里指<code>body</code>元素) ，所以第一个<code>div</code>的下边距和第二个<code>div</code>的上边距发生了重叠，所以两个盒子之间距离只有<code>100px</code>，而不是<code>200px</code>。首先这不是<code>CSS</code>的bug，我们可以理解为一种规范，如果想要避免外边距的重叠，可以将其放在不同的<code>BFC</code>容器中。</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">.container &#123;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">p &#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    background: lightblue;</span><br><span class="line">    margin: 100px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">    &lt;p&gt;&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">    &lt;p&gt;&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure><p>这个时候两个<code>div</code>的边距就是<code>200px</code>了</p></li><li><p>BFC 可以包含浮动的元素（清除浮动）</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div style=&quot;border: 1px solid #000;&quot;&gt;</span><br><span class="line">    &lt;div style=&quot;width: 100px;height: 100px;background: #eee;float: left;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure><p>浮动的元素会脱离普通文档流，由于容器内元素浮动，脱离了文档流，所以容器只剩下<code>2px</code>的边距高度。如果触发容器的<code>BFC</code>，那么容器将会包裹着浮动元素。</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div style=&quot;border: 1px solid #000;overflow: hidden&quot;&gt;</span><br><span class="line">    &lt;div style=&quot;width: 100px;height: 100px;background: #eee;float: left;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></li><li><p>BFC 可以阻止元素被浮动元素覆盖</p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div style=&quot;height: 100px;width: 100px;float: left;background: lightblue&quot;&gt;我是一个左浮动的元素&lt;/div&gt;</span><br><span class="line">&lt;div style=&quot;width: 200px; height: 200px;background: #eee&quot;&gt;我是一个没有设置浮动, </span><br><span class="line">也没有触发 BFC 元素, width: 200px; height:200px; background: #eee;&lt;/div&gt;</span><br></pre></td></tr></table></figure><p>这时候其实第二个元素有部分被浮动元素所覆盖(但是文本信息不会被浮动元素所覆盖) ，如果想避免元素被覆盖，可触发第二个元素的<code>BFC</code>特性，在第二个元素中加入<code>overflow: hidden</code></p><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div style=&quot;height: 100px;width: 100px;float: left;background: lightblue&quot;&gt;我是一个左浮动的元素&lt;/div&gt;</span><br><span class="line">&lt;div style=&quot;width: 200px; height: 200px;background: #eee&quot;; overflow: hidden&gt;我是一个没有设置浮动, </span><br><span class="line">也没有触发BFC元素, width: 200px; height:200px; background: #eee;&lt;/div&gt;</span><br></pre></td></tr></table></figure><p>这样就可以用来实现两列自适应布局，这时候左边的宽度固定，右边的内容自适应宽度(去掉上面右边内容的宽度)。</p></li></ul></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 前端面试题 </category>
+          
+          <category> CSS篇 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 前端 </tag>
+            
+            <tag> CSS </tag>
+            
+            <tag> 前端面试题 </tag>
+            
+            <tag> 前端基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>路(三)</title>
       <link href="/2021/07/28/%E8%B7%AF-%E4%B8%89/"/>
       <url>/2021/07/28/%E8%B7%AF-%E4%B8%89/</url>
@@ -96,6 +129,8 @@
           
           <category> 前端面试题 </category>
           
+          <category> Js篇 </category>
+          
       </categories>
       
       
@@ -103,9 +138,11 @@
             
             <tag> 前端 </tag>
             
-            <tag> Js </tag>
-            
             <tag> 前端面试题 </tag>
+            
+            <tag> 前端基础知识 </tag>
+            
+            <tag> Js </tag>
             
         </tags>
       
