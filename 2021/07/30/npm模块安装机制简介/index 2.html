@@ -1,0 +1,253 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>npm模块安装机制简介 | Galaxy大宝's Blog</title><meta name="keywords" content="前端基础知识"><meta name="author" content="Galaxy大宝"><meta name="copyright" content="Galaxy大宝"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="这个系列所写的文章都是看别的大神总结来的，目的一是、记录自己的一个学习过程；二是、总结记录起来方便以后阅读。虽然也不一定有多少人能看得到这些文章，但是避免误会，还是要声明一下！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="npm模块安装机制简介">
+<meta property="og:url" content="https://mygit1220.github.io/2021/07/30/npm%E6%A8%A1%E5%9D%97%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Galaxy大宝&#39;s Blog">
+<meta property="og:description" content="这个系列所写的文章都是看别的大神总结来的，目的一是、记录自己的一个学习过程；二是、总结记录起来方便以后阅读。虽然也不一定有多少人能看得到这些文章，但是避免误会，还是要声明一下！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mygit1220.github.io/img/jsImg/n1.jpeg">
+<meta property="article:published_time" content="2021-07-30T09:02:09.000Z">
+<meta property="article:modified_time" content="2021-08-06T09:28:21.758Z">
+<meta property="article:author" content="Galaxy大宝">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="模块化">
+<meta property="article:tag" content="工程化">
+<meta property="article:tag" content="npm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mygit1220.github.io/img/jsImg/n1.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://mygit1220.github.io/2021/07/30/npm%E6%A8%A1%E5%9D%97%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6%E7%AE%80%E4%BB%8B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'npm模块安装机制简介',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-06 17:28:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/static-butterfly/dist/css/index.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.jpeg" onerror="onerror=null;src='undefined'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">16</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-cubes"></i><span> 书单</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Galaxy大宝's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-cubes"></i><span> 书单</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">npm模块安装机制简介</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-30T09:02:09.000Z" title="发表于 2021-07-30 17:02:09">2021-07-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-08-06T09:28:21.758Z" title="更新于 2021-08-06 17:28:21">2021-08-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">前端基础知识</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="npm模块安装机制简介"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><H3> npm 模块安装机制 </H3>
+
+<ol>
+<li>发出<code>npm instal</code>l命令</li>
+<li>查询<code>node_modules</code>目录之中是否已经存在指定模块。若存在，不再重新安装；若不存在，执行以下步骤：<ul>
+<li><code>npm</code> 向 <code>registry</code> 查询模块压缩包的网址</li>
+<li>下载压缩包，存放在根目录下的<code>.npm</code>目录里</li>
+<li>解压压缩包到当前项目的<code>node_modules</code>目录</li>
+</ul>
+</li>
+</ol>
+<H3> npm 实现原理 </H3>
+
+<p>输入 <code>npm install</code> 命令并敲下回车后，会经历如下几个阶段（以 npm 5.5.1 为例）：</p>
+<ol>
+<li><p>执行工程自身 preinstall<br>当前 <code>npm</code> 工程如果定义了 <code>preinstall</code> 钩子此时会被执行。</p>
+</li>
+<li><p>确定首层依赖模块</p>
+<ul>
+<li>首先需要做的是确定工程中的首层依赖，也就是 <code>dependencies</code> 和 <code>devDependencies</code> 属性中直接指定的模块（假设此时没有添加 <code>npm install</code> 参数）。</li>
+<li>工程本身是整棵依赖树的根节点，每个首层依赖模块都是根节点下面的一棵子树，<code>npm</code> 会开启多进程从每个首层依赖模块开始逐步寻找更深层级的节点。</li>
+</ul>
+</li>
+<li><p>获取模块<br>获取模块是一个递归的过程，分为以下几步</p>
+<ul>
+<li>获取模块信息。在下载一个模块之前，首先要确定其版本，这是因为 <code>package.json </code>中往往是 <code>semantic version</code>（<code>semver</code>，语义化版本）。此时如果版本描述文件<code>（npm-shrinkwrap.json 或 package-lock.json）</code>中有该模块信息直接拿即可，如果没有则从仓库获取。如 <code>packaeg.json</code> 中某个包的版本是<code> ^1.1.0</code>，<code>npm </code>就会去仓库中获取符合 <code>1.x.x</code> 形式的最新版本。</li>
+<li>获取模块实体。上一步会获取到模块的压缩包地址（<code>resolved</code> 字段），<code>npm</code> 会用此地址检查本地缓存，缓存中有就直接拿，如果没有则从仓库下载。</li>
+<li>查找该模块依赖，如果有依赖则回到第1步，如果没有则停止。</li>
+</ul>
+</li>
+<li><p>模块扁平化（dedupe）<br>上一步获取到的是一棵完整的依赖树，其中可能包含大量重复模块。比如 <code>A</code> 模块依赖于 <code>loadsh</code>，<code>B</code> 模块同样依赖于 <code>lodash</code>。在 <code>npm3</code> 以前会严格按照依赖树的结构进行安装，因此会造成模块冗余。<br>从 <code>npm3</code> 开始默认加入了一个 <code>dedupe</code> 的过程。它会遍历所有节点，逐个将模块放在根节点下面，也就是 <code>node-modules</code> 的第一层。当发现有重复模块时，则将其丢弃。<br>这里需要对重复模块进行一个定义，它指的是模块名相同且 <code>semver</code> 兼容。每个 <code>semver</code> 都对应一段版本允许范围，如果两个模块的版本允许范围存在交集，那么就可以得到一个兼容版本，而不必版本号完全一致，这可以使更多冗余模块在 <code>dedupe</code> 过程中被去掉。<br>比如 <code>node-modules</code> 下 <code>foo</code> 模块依赖 <code>lodash@^1.0.0</code>，<code>bar</code> 模块依赖 <code>lodash@^1.1.0</code>，则 <code>^1.1.0</code> 为兼容版本。<br>而当 <code>foo</code> 依赖 <code>lodash@^2.0.0</code>，<code>bar</code> 依赖 <code>lodash@^1.1.0</code>，则依据 <code>semver</code> 的规则，二者不存在兼容版本。会将一个版本放在 <code>node_modules</code> 中，另一个仍保留在依赖树里。<br>举个例子，假设一个依赖树原本是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">node_modules</span><br><span class="line">-- foo</span><br><span class="line">---- lodash@version1</span><br><span class="line"></span><br><span class="line">-- bar</span><br><span class="line">---- lodash@version2</span><br><span class="line"></span><br><span class="line">假设 version1 和 version2 是兼容版本，则经过 dedupe 会成为下面的形式：</span><br><span class="line"></span><br><span class="line">node_modules</span><br><span class="line">-- foo</span><br><span class="line"></span><br><span class="line">-- bar</span><br><span class="line"></span><br><span class="line">-- lodash（保留的版本为兼容版本）</span><br><span class="line"></span><br><span class="line">假设 version1 和 version2 为非兼容版本，则后面的版本保留在依赖树中：</span><br><span class="line"></span><br><span class="line">node_modules</span><br><span class="line">-- foo</span><br><span class="line">-- lodash@version1</span><br><span class="line"></span><br><span class="line">-- bar</span><br><span class="line">---- lodash@version2</span><br></pre></td></tr></table></figure></li>
+<li><p>安装模块<br>这一步将会更新工程中的 <code>node_modules</code>，并执行模块中的生命周期函数（按照 <code>preinstall、install、postinstall</code> 的顺序）。</p>
+</li>
+<li><p>执行工程自身生命周期<br>当前 <code>npm </code>工程如果定义了钩子此时会被执行（按照 <code>install、postinstall、prepublish、prepare</code> 的顺序）。<br>最后一步是生成或更新版本描述文件，<code>npm install</code> 过程完成。</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Galaxy大宝</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mygit1220.github.io/2021/07/30/npm%E6%A8%A1%E5%9D%97%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6%E7%AE%80%E4%BB%8B/">https://mygit1220.github.io/2021/07/30/npm%E6%A8%A1%E5%9D%97%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6%E7%AE%80%E4%BB%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://mygit1220.github.io" target="_blank">Galaxy大宝's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%89%8D%E7%AB%AF/">前端</a><a class="post-meta__tags" href="/tags/%E6%A8%A1%E5%9D%97%E5%8C%96/">模块化</a><a class="post-meta__tags" href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a><a class="post-meta__tags" href="/tags/npm/">npm</a></div><div class="post_share"><div class="social-share" data-image="/img/jsImg/n1.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/wechat.jpeg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/07/30/ES6%E3%80%81ES7%E5%B8%B8%E7%94%A8%E7%89%B9%E6%80%A7/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/jsImg/e1.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ES6、ES7常用特性</div></div></a></div><div class="next-post pull-right"><a href="/2021/08/02/webpack%E7%AE%80%E4%BB%8B/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/jsImg/wp1.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">webpack简介</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/07/30/介绍模块化发展历程/" title="介绍模块化发展历程"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/jsImg/m1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-30</div><div class="title">介绍模块化发展历程</div></div></a></div><div><a href="/2021/08/02/webpack简介/" title="webpack简介"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/jsImg/wp1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-02</div><div class="title">webpack简介</div></div></a></div><div><a href="/2021/07/30/ES6、ES7常用特性/" title="ES6、ES7常用特性"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/jsImg/e1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-30</div><div class="title">ES6、ES7常用特性</div></div></a></div><div><a href="/2021/07/30/React、React-Redux、Redux-saga用法总结/" title="React、React-Redux、Redux-saga用法总结"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/jsImg/r1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-30</div><div class="title">React、React-Redux、Redux-saga用法总结</div></div></a></div><div><a href="/2021/08/03/ES8、ES9、ES10、ES11常用特性/" title="ES8、ES9、ES10、ES11常用特性"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/jsImg/e2.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-03</div><div class="title">ES8、ES9、ES10、ES11常用特性</div></div></a></div><div><a href="/2021/08/02/前端面试题-CSS篇-二/" title="前端面试题--CSS篇(二)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/cssImg/css2.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-02</div><div class="title">前端面试题--CSS篇(二)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"> npm 模块安装机制 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text"> npm 实现原理 </span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Galaxy大宝</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">简</button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'forest',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: 'e9c69d1b5fba4c157bcf',
+      clientSecret: '9919606e4c709fa0a7eddd3acc4f1be4e5831439',
+      repo: 'mygit1220.github.io',
+      owner: 'mygit1220',
+      admin: ['mygit1220'],
+      id: 'b805b4482ce2ab556bc4cddd7aede81c',
+      language: 'zh-CN',
+      perPage: 10,
+      distractionFreeMode: true,
+      pagerDirection: 'last',
+      createIssueManually: true,
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
