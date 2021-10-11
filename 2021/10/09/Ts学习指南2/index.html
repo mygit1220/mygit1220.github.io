@@ -1,0 +1,276 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ts学习指南(二) | Galaxy大宝's Blog</title><meta name="keywords" content="TypeScript"><meta name="author" content="Galaxy大宝"><meta name="copyright" content="Galaxy大宝"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="这个系列所写的文章都是看别的大神总结来的，目的一是、记录自己的一个学习过程；二是、总结记录起来方便以后阅读。虽然也不一定有多少人能看得到这些文章，但是避免误会，还是要声明一下！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ts学习指南(二)">
+<meta property="og:url" content="https://mygit1220.github.io/2021/10/09/Ts%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%972/index.html">
+<meta property="og:site_name" content="Galaxy大宝&#39;s Blog">
+<meta property="og:description" content="这个系列所写的文章都是看别的大神总结来的，目的一是、记录自己的一个学习过程；二是、总结记录起来方便以后阅读。虽然也不一定有多少人能看得到这些文章，但是避免误会，还是要声明一下！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mygit1220.github.io/img/ts/ts1.jpeg">
+<meta property="article:published_time" content="2021-10-09T10:15:16.000Z">
+<meta property="article:modified_time" content="2021-10-11T03:13:04.130Z">
+<meta property="article:author" content="Galaxy大宝">
+<meta property="article:tag" content="Ts">
+<meta property="article:tag" content="Ts学习指南">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mygit1220.github.io/img/ts/ts1.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://mygit1220.github.io/2021/10/09/Ts%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%972/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ts学习指南(二)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-10-11 11:13:04'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/static-butterfly/dist/css/index.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.jpeg" onerror="onerror=null;src='undefined'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">43</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">18</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-cubes"></i><span> 书单</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Galaxy大宝's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-cubes"></i><span> 书单</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">Ts学习指南(二)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-10-09T10:15:16.000Z" title="发表于 2021-10-09 18:15:16">2021-10-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-10-11T03:13:04.130Z" title="更新于 2021-10-11 11:13:04">2021-10-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Ts/">Ts</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Ts/Ts%E5%AD%A6%E4%B9%A0%E6%89%8B%E5%86%8C/">Ts学习手册</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Ts学习指南(二)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><H3>三、TypeScript 断言</H3>
+
+<ol>
+<li>类型断言<br>有时候会遇到这样的情况：你比<code>TypeScript</code>更了解某个值的详细信息。通常这会发生在你清楚地知道一个实体具有比它现有类型更确切的类型。通过类型断言这种方式可以告诉编译器，“相信我，我知道自己在干什么”。类型断言好比其他语言里的类型转换，但是不进行特殊的数据检查和解构。它没有运行时的影响，只是在编译阶段起作用。类型断言有两种形式：<ul>
+<li>“尖括号” 语法<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let someValue: any = &quot;this is a string&quot;;</span><br><span class="line">let strLength: number = (&lt;string&gt;someValue).length;</span><br></pre></td></tr></table></figure></li>
+<li>as 语法<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let someValue: any = &quot;this is a string&quot;;</span><br><span class="line">let strLength: number = (someValue as string).length;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>非空断言<br>在上下文中当类型检查器无法断定类型时，一个新的后缀表达式操作符<code>!</code>可以用于断言操作对象是非 <code>null </code>和非<code>undefined</code>类型。具体而言，<code>x! </code>将从<code>x</code>值域中排除<code>null</code>和<code>undefined</code>。以下是非空断言操作符的一些使用场景：<ul>
+<li>忽略 undefined 和 null 类型<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function myFunc(maybeString: string | undefined | null) &#123;</span><br><span class="line">// Type &#x27;string | null | undefined&#x27; is not assignable to type &#x27;string&#x27;.</span><br><span class="line">// Type &#x27;undefined&#x27; is not assignable to type &#x27;string&#x27;. </span><br><span class="line">const onlyString: string = maybeString; // Error</span><br><span class="line">const ignoreUndefinedAndNull: string = maybeString!; // Ok</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>调用函数时忽略 undefined 类型<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type NumGenerator = () =&gt; number;</span><br><span class="line"></span><br><span class="line">function myFunc(numGenerator: NumGenerator | undefined) &#123;</span><br><span class="line">// Object is possibly &#x27;undefined&#x27;.(2532)</span><br><span class="line">// Cannot invoke an object which is possibly &#x27;undefined&#x27;.(2722)</span><br><span class="line">const num1 = numGenerator(); // Error</span><br><span class="line">const num2 = numGenerator!(); //OK</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+因为 ! 非空断言操作符会从编译生成的 JavaScript 代码中移除，所以在实际使用的过程中，要特别注意。</li>
+</ul>
+</li>
+<li>确定赋值断言<br>在<code>TypeScript 2.7</code>版本中引入了确定赋值断言，即允许在实例属性和变量声明后面放置一个<code>!</code>号，从而告诉<code>TypeScript</code>该属性会被明确地赋值。举例如下：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let x: number;</span><br><span class="line">initialize();</span><br><span class="line">// Variable &#x27;x&#x27; is used before being assigned.(2454)</span><br><span class="line">console.log(2 * x); // Error</span><br><span class="line"></span><br><span class="line">function initialize() &#123;</span><br><span class="line">  x = 10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+很明显该异常信息是说变量 x 在赋值前被使用了，要解决该问题，我们可以使用确定赋值断言：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let x!: number;</span><br><span class="line">initialize();</span><br><span class="line">console.log(2 * x); // Ok</span><br><span class="line"></span><br><span class="line">function initialize() &#123;</span><br><span class="line">  x = 10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+通过 let x!: number; 确定赋值断言，TypeScript 编译器就会知道该属性会被明确地赋值。</li>
+</ol>
+<H3>四、类型守卫</H3>
+
+<p>类型保护是可执行运行时检查的一种表达式，用于确保该类型在一定的范围内。 换句话说，类型保护可以保证一个字符串是一个字符串，尽管它的值也可以是一个数值。类型保护与特性检测并不是完全不同，其主要思想是尝试检测属性、方法或原型，以确定如何处理值。目前主要有四种的方式来实现类型保护。</p>
+<ol>
+<li>in 关键字<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">interface Admin &#123;</span><br><span class="line">  name: string;</span><br><span class="line">  privileges: string[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Employee &#123;</span><br><span class="line">  name: string;</span><br><span class="line">  startDate: Date;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type UnknownEmployee = Employee | Admin;</span><br><span class="line"></span><br><span class="line">function printEmployeeInformation(emp: UnknownEmployee) &#123;</span><br><span class="line">  console.log(&quot;Name: &quot; + emp.name);</span><br><span class="line">  if (&quot;privileges&quot; in emp) &#123;</span><br><span class="line">    console.log(&quot;Privileges: &quot; + emp.privileges);</span><br><span class="line">  &#125;</span><br><span class="line">  if (&quot;startDate&quot; in emp) &#123;</span><br><span class="line">    console.log(&quot;Start Date: &quot; + emp.startDate);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li> typeof 关键字<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function padLeft(value: string, padding: string | number) &#123;</span><br><span class="line">  if (typeof padding === &quot;number&quot;) &#123;</span><br><span class="line">      return Array(padding + 1).join(&quot; &quot;) + value;</span><br><span class="line">  &#125;</span><br><span class="line">  if (typeof padding === &quot;string&quot;) &#123;</span><br><span class="line">      return padding + value;</span><br><span class="line">  &#125;</span><br><span class="line">  throw new Error(`Expected string or number, got &#x27;$&#123;padding&#125;&#x27;.`);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<code>typeof </code>类型保护只支持两种形式：<code>typeof v === &quot;typename&quot; </code>和<code> typeof v !== typename</code>，<code>&quot;typename&quot; </code>必须是<code>&quot;number&quot;， &quot;string&quot;， &quot;boolean&quot;</code>或<code> &quot;symbol&quot;</code>。 但是<code>TypeScript</code>并不会阻止你与其它字符串比较，语言不会把那些表达式识别为类型保护。</li>
+<li>instanceof 关键字<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">interface Padder &#123;</span><br><span class="line">  getPaddingString(): string;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class SpaceRepeatingPadder implements Padder &#123;</span><br><span class="line">  constructor(private numSpaces: number) &#123;&#125;</span><br><span class="line">  getPaddingString() &#123;</span><br><span class="line">    return Array(this.numSpaces + 1).join(&quot; &quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class StringPadder implements Padder &#123;</span><br><span class="line">  constructor(private value: string) &#123;&#125;</span><br><span class="line">  getPaddingString() &#123;</span><br><span class="line">    return this.value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let padder: Padder = new SpaceRepeatingPadder(6);</span><br><span class="line"></span><br><span class="line">if (padder instanceof SpaceRepeatingPadder) &#123;</span><br><span class="line">  // padder的类型收窄为 &#x27;SpaceRepeatingPadder&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>自定义类型保护的类型谓词<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function isNumber(x: any): x is number &#123;</span><br><span class="line">  return typeof x === &quot;number&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function isString(x: any): x is string &#123;</span><br><span class="line">  return typeof x === &quot;string&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<H3>五、联合类型和类型别名</H3>
+
+<ol>
+<li>联合类型<br>联合类型通常与<code>null</code>或<code>undefined</code>一起使用：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const sayHello = (name: string | undefined) =&gt; &#123;</span><br><span class="line">  /* ... */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+此外，对于联合类型来说，还有以下的用法：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let num: 1 | 2 = 1;</span><br><span class="line">type EventNames = &#x27;click&#x27; | &#x27;scroll&#x27; | &#x27;mousemove&#x27;;</span><br></pre></td></tr></table></figure>
+以上示例中的<code>1、2</code>或<code>&#39;click&#39;</code>被称为字面量类型，用来约束取值只能是某几个值中的一个。</li>
+<li>可辨识联合<br><code>TypeScript </code>可辨识联合<code>（Discriminated Unions）</code>类型，也称为代数数据类型或标签联合类型。它包含 3 个要点：可辨识、联合类型和类型守卫。这种类型的本质是结合联合类型和字面量类型的一种类型保护方法。如果一个类型是多个类型的联合类型，且多个类型含有一个公共属性，那么就可以利用这个公共属性，来创建不同的类型保护区块。<ul>
+<li>可辨识<br>可辨识要求联合类型中的每个元素都含有一个单例类型属性，比如：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">enum CarTransmission &#123;</span><br><span class="line">    Automatic = 200,</span><br><span class="line">    Manual = 300</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Motorcycle &#123;</span><br><span class="line">    vType: &quot;motorcycle&quot;; // discriminant</span><br><span class="line">    make: number; // year</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Car &#123;</span><br><span class="line">    vType: &quot;car&quot;; // discriminant</span><br><span class="line">    transmission: CarTransmission</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Truck &#123;</span><br><span class="line">    vType: &quot;truck&quot;; // discriminant</span><br><span class="line">    capacity: number; // in tons</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+在上述代码中，我们分别定义了<code>Motorcycle、 Car</code>和<code>Truck</code>三个接口，在这些接口中都包含一个<code>vType</code>属性，该属性被称为可辨识的属性，而其它的属性只跟特性的接口相关。</li>
+<li>联合类型<br>基于前面定义了三个接口，我们可以创建一个 Vehicle 联合类型：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type Vehicle = Motorcycle | Car | Truck;</span><br></pre></td></tr></table></figure>
+现在我们就可以开始使用<code>Vehicle</code>联合类型，对于<code>Vehicle</code>类型的变量，它可以表示不同类型的车辆。</li>
+<li>类型守卫<br>下面我们来定义一个<code>evaluatePrice</code>方法，该方法用于根据车辆的类型、容量和评估因子来计算价格，具体实现如下：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const EVALUATION_FACTOR = Math.PI; </span><br><span class="line"></span><br><span class="line">function evaluatePrice(vehicle: Vehicle) &#123;</span><br><span class="line">return vehicle.capacity * EVALUATION_FACTOR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const myTruck: Truck = &#123; vType: &quot;truck&quot;, capacity: 9.5 &#125;;</span><br><span class="line">evaluatePrice(myTruck);</span><br></pre></td></tr></table></figure>
+对于以上代码，TypeScript 编译器将会提示以下错误信息：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Property &#x27;capacity&#x27; does not exist on type &#x27;Vehicle&#x27;.</span><br><span class="line">Property &#x27;capacity&#x27; does not exist on type &#x27;Motorcycle&#x27;.</span><br></pre></td></tr></table></figure>
+原因是在<code>Motorcycle</code>接口中，并不存在<code>capacity</code>属性，而对于<code>Car</code>接口来说，它也不存在<code>capacity</code>属性。那么，现在我们应该如何解决以上问题呢？这时，我们可以使用类型守卫。下面我们来重构一下前面定义的<code>evaluatePrice</code>方法，重构后的代码如下：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function evaluatePrice(vehicle: Vehicle) &#123;</span><br><span class="line">switch(vehicle.vType) &#123;</span><br><span class="line">    case &quot;car&quot;:</span><br><span class="line">    return vehicle.transmission * EVALUATION_FACTOR;</span><br><span class="line">    case &quot;truck&quot;:</span><br><span class="line">    return vehicle.capacity * EVALUATION_FACTOR;</span><br><span class="line">    case &quot;motorcycle&quot;:</span><br><span class="line">    return vehicle.make * EVALUATION_FACTOR;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+在以上代码中，我们使用<code>switch</code>和<code>case</code>运算符来实现类型守卫，从而确保在 <code>evaluatePrice </code>方法中，我们可以安全地访问<code>vehicle</code>对象中的所包含的属性，来正确的计算该车辆类型所对应的价格。</li>
+</ul>
+</li>
+<li>类型别名<br>类型别名用来给一个类型起个新名字。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type Message = string | string[];</span><br><span class="line"></span><br><span class="line">let greet = (message: Message) =&gt; &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<H3>六、交叉类型</H3>
+
+<p>在<code>TypeScript</code>中交叉类型是将多个类型合并为一个类型。通过<code>&amp;</code>运算符可以将现有的多种类型叠加到一起成为一种类型，它包含了所需的所有类型的特性。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">type PartialPointX = &#123; x: number; &#125;;</span><br><span class="line">type Point = PartialPointX &amp; &#123; y: number; &#125;;</span><br><span class="line"></span><br><span class="line">let point: Point = &#123;</span><br><span class="line">  x: 1,</span><br><span class="line">  y: 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面代码中我们先定义了<code>PartialPointX</code>类型，接着使用<code>&amp;</code>运算符创建一个新的<code>Point</code>类型，表示一个含有<code>x</code>和<code>y</code>坐标的点，然后定义了一个<code>Point</code>类型的变量并初始化。</p>
+<ol>
+<li><p>同名基础类型属性的合并<br>那么现在问题来了，假设在合并多个类型的过程中，刚好出现某些类型存在相同的成员，但对应的类型又不一致，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">interface X &#123;</span><br><span class="line">  c: string;</span><br><span class="line">  d: string;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interface Y &#123;</span><br><span class="line">  c: number;</span><br><span class="line">  e: string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type XY = X &amp; Y;</span><br><span class="line">type YX = Y &amp; X;</span><br><span class="line"></span><br><span class="line">let p: XY;</span><br><span class="line">let q: YX;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>混入后成员<code>c</code>的类型为<code> string &amp; number</code>，即成员<code>c</code>的类型既可以是<code>string</code>类型又可以是<code>number</code>类型。很明显这种类型是不存在的，所以混入后成员<code>c</code>的类型为<code> never</code>。</p>
+</li>
+<li><p>同名非基础类型属性的合并</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">interface D &#123; d: boolean; &#125;</span><br><span class="line">interface E &#123; e: string; &#125;</span><br><span class="line">interface F &#123; f: number; &#125;</span><br><span class="line"></span><br><span class="line">interface A &#123; x: D; &#125;</span><br><span class="line">interface B &#123; x: E; &#125;</span><br><span class="line">interface C &#123; x: F; &#125;</span><br><span class="line"></span><br><span class="line">type ABC = A &amp; B &amp; C;</span><br><span class="line"></span><br><span class="line">let abc: ABC = &#123;</span><br><span class="line">  x: &#123;</span><br><span class="line">    d: true,</span><br><span class="line">    e: &#x27;semlinker&#x27;,</span><br><span class="line">    f: 666</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(&#x27;abc:&#x27;, abc); // &#123;x: &#123; d: true, e: &#x27;semlinker&#x27;, f: 666 &#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>在混入多个类型时，若存在相同的成员，且成员类型为非基本数据类型，那么是可以成功合并。</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Galaxy大宝</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mygit1220.github.io/2021/10/09/Ts%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%972/">https://mygit1220.github.io/2021/10/09/Ts%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%972/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://mygit1220.github.io" target="_blank">Galaxy大宝's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Ts/">Ts</a><a class="post-meta__tags" href="/tags/Ts%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%97/">Ts学习指南</a></div><div class="post_share"><div class="social-share" data-image="/img/ts/ts1.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/wechat.jpeg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/10/09/TS%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%971/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/ts/ts1.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Ts学习指南(一)</div></div></a></div><div class="next-post pull-right"><a href="/2021/10/11/Ts%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%973/"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/ts/ts1.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Ts学习指南(三)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/10/09/TS学习指南1/" title="Ts学习指南(一)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/ts/ts1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-09</div><div class="title">Ts学习指南(一)</div></div></a></div><div><a href="/2021/10/11/Ts学习指南3/" title="Ts学习指南(三)"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/ts/ts1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-11</div><div class="title">Ts学习指南(三)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">三、TypeScript 断言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">四、类型守卫</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">五、联合类型和类型别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">六、交叉类型</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Galaxy大宝</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">简</button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'forest',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: 'e9c69d1b5fba4c157bcf',
+      clientSecret: '9919606e4c709fa0a7eddd3acc4f1be4e5831439',
+      repo: 'mygit1220.github.io',
+      owner: 'mygit1220',
+      admin: ['mygit1220'],
+      id: '632b15055fb14ad6b6d438d976e9b910',
+      language: 'zh-CN',
+      perPage: 10,
+      distractionFreeMode: true,
+      pagerDirection: 'last',
+      createIssueManually: true,
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
