@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title>TS学习指南6</title>
+      <title>TS学习指南（六）</title>
       <link href="/2021/10/15/Ts%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%976/"/>
       <url>/2021/10/15/Ts%E5%AD%A6%E4%B9%A0%E6%8C%87%E5%8D%976/</url>
       
@@ -182,7 +182,7 @@
       <link href="/2021/10/09/JS%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/"/>
       <url>/2021/10/09/JS%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/</url>
       
-        <content type="html"><![CDATA[<H3> isPrimitive：检测数据是不是原始数据 </H3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function isStatic(value)&#123;</span><br><span class="line">    return (</span><br><span class="line">        typeof value === &#x27;string&#x27; ||</span><br><span class="line">        typeof value === &#x27;number&#x27; ||</span><br><span class="line">        typeof value === &#x27;boolean&#x27; ||</span><br><span class="line">        typeof value === &#x27;undefined&#x27; ||</span><br><span class="line">        typeof value === &#x27;symbol&#x27; ||</span><br><span class="line">        value === null</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><H3> isObject:判断数据是不是引用类型的数据（例如：array,function,object,regexe,new Number(),new String()) </H3><p>未完待续。。。。。</p>]]></content>
+        <content type="html"><![CDATA[<H3> isPrimitive：检测数据是不是原始数据 </H3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function isStatic(value)&#123;</span><br><span class="line">    return (</span><br><span class="line">        typeof value === &#x27;string&#x27; ||</span><br><span class="line">        typeof value === &#x27;number&#x27; ||</span><br><span class="line">        typeof value === &#x27;boolean&#x27; ||</span><br><span class="line">        typeof value === &#x27;undefined&#x27; ||</span><br><span class="line">        typeof value === &#x27;symbol&#x27; ||</span><br><span class="line">        value === null</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><H3> isObject:判断数据是不是引用类型的数据（例如：array,function,object,regexe,new Number(),new String()) </H3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">function isObject(value) &#123;</span><br><span class="line">let type = typeof value;</span><br><span class="line">return value != null &amp;&amp; (type == &#x27;object&#x27; || type == &#x27;function&#x27;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>未完待续。。。。。。</p>]]></content>
       
       
       <categories>
