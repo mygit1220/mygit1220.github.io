@@ -1,0 +1,310 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RxJS基础篇 | Galaxy大宝's Blog</title><meta name="keywords" content="函数式编程"><meta name="author" content="Galaxy大宝"><meta name="copyright" content="Galaxy大宝"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="这个系列所写的文章都是看别的大神总结来的，目的一是、记录自己的一个学习过程；二是、总结记录起来方便以后阅读。虽然也不一定有多少人能看得到这些文章，但是避免误会，还是要声明一下！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJS基础篇">
+<meta property="og:url" content="https://mygit1220.github.io/2021/11/23/RxJs%E7%AE%80%E8%BF%B0/index.html">
+<meta property="og:site_name" content="Galaxy大宝&#39;s Blog">
+<meta property="og:description" content="这个系列所写的文章都是看别的大神总结来的，目的一是、记录自己的一个学习过程；二是、总结记录起来方便以后阅读。虽然也不一定有多少人能看得到这些文章，但是避免误会，还是要声明一下！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mygit1220.github.io/img/rxjs.jpeg">
+<meta property="article:published_time" content="2021-11-23T02:53:27.000Z">
+<meta property="article:modified_time" content="2021-12-02T05:51:08.656Z">
+<meta property="article:author" content="Galaxy大宝">
+<meta property="article:tag" content="函数式编程">
+<meta property="article:tag" content="RxJS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mygit1220.github.io/img/rxjs.jpeg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://mygit1220.github.io/2021/11/23/RxJs%E7%AE%80%E8%BF%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'RxJS基础篇',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-12-02 13:51:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/static-butterfly/dist/css/index.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/avatar.jpeg" onerror="onerror=null;src='undefined'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">32</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">45</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-cubes"></i><span> 书单</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Galaxy大宝's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heartbeat"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa-cubes"></i><span> 书单</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">RxJS基础篇</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-23T02:53:27.000Z" title="发表于 2021-11-23 10:53:27">2021-11-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-02T05:51:08.656Z" title="更新于 2021-12-02 13:51:08">2021-12-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/RxJS/">RxJS</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="RxJS基础篇"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><H3> 关于RxJS </H3>
+
+<p><code>RxJS</code> 是 <code>Reactive Extensions for JavaScript</code> 的缩写，起源于 <code>Reactive Extensions</code>，是一个基于可观测数据流在异步编程应用中的库。它提供了一个核心类型 <code>Observable</code>，附属类型 <code>(Observer、 Schedulers、 Subjects)</code> 和操作符<code>Operators</code>，通过使用 <code>observable</code> 序列来编写异步和基于事件的程序。<code>ReactiveX</code> 结合了观察者模式、迭代器模式和使用集合的函数式编程，以满足用一种理想方式来管理事件序列所需要的一切。</p>
+<H3> 一些前置知识点梳理 </H3>
+
+<ol>
+<li><p>响应式编程（RP —— Reactive Programming）<br>响应式编程是一种面向数据流和变化传播的编程范式。在编程语言中很方便地表达静态或动态的数据流，而相关的计算模型会自动将变化的值通过数据流进行传播。—— 维基百科</p>
+<ul>
+<li>响应式编程是使用异步数据流进行编程。常见的异步数据流包含事件总线(Event buses)。用包含这些事件在内的任何东西创建数据流（Data stream），监听他并作出响应。</li>
+<li>只关注业务逻辑互相依赖的事件而不是实现细节。</li>
+<li>适用于大量和数据有关的事件交互，特别是高实时性要求。</li>
+</ul>
+<p>举个例子，React/Vue的设计理念也是一种响应式编程范式，我们在编写代码的过程中，不必关注Dom相关的操作，只需要关注数据的变化。React/Vue会感知到数据的变化，并将这种随着数据变化相应的Dom层的修改自动改变、重新渲染。</p>
+</li>
+<li><p>流（Stream）<br>作为响应式编程的核心，流的本质是一系列随时间到达的数据。例如：事件流、直播数据流、文本编辑流、WebSocket。</p>
+<p>举个例子，代码中每1s输出一个数字，用户每一次对元素的点击，就像是在时间这个维度上，产生了一个数据集。这个数据集不像数组那样，它不是一开始都存在的，而是随着时间的流逝，一个一个数据被输出出来。这种异步行为产生的数据，就可以被称之为一个流，在RxJS中，称之为observable（本质上就是一个数据的集合，只是这些数据不一定是一开始就设定好的，而是随着时间而不断产生的）。而RxJS，就是为了处理这种流而产生的工具，比如流与流的合并，流的截断，延迟，消抖等等操作。</p>
+</li>
+<li><p>观察者模式<br>定义对象间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。<br><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/12540c428ca3449bbc492da30a2ee132~tplv-k3u1fbpfcp-watermark.awebp"></p>
+<ul>
+<li>优点：降低了目标与观察者之间的耦合关系，两者之间是抽象耦合关系；目标与观察者之间建立了一套触发机制；支持一对多广播通信。</li>
+<li>缺点：目标与观察者之间的依赖关系并没有完全解除，会出现循环引用；观察层级较深时，广播通信成本高。</li>
+</ul>
+</li>
+<li><p>迭代器模式<br>在面向对象编程里，迭代器模式是一种设计模式，是一种最简单也最常见的设计模式。迭代器模式可以把迭代的过程从从业务逻辑中分离出来，它可以让用户透过特定的接口访问容器中的每一个元素而不用了解底层的实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">const iterable = [1, 2, 3];</span><br><span class="line">const iterator = iterable[Symbol.iterator]();</span><br><span class="line">iterator.next(); // =&gt; &#123; value: &quot;1&quot;, done: false&#125;</span><br><span class="line">iterator.next(); // =&gt; &#123; value: &quot;2&quot;, done: false&#125;</span><br><span class="line">iterator.next(); // =&gt; &#123; value: &quot;3&quot;, done: false&#125;</span><br><span class="line">iterator.next(); // =&gt; &#123; value: undefined, done: true&#125;</span><br></pre></td></tr></table></figure>
+<p>由上可知Iterator 只有一个 next 方法，通过调用 next 获取值。<br>作为前端开发者来说，我们最常遇到的部署了Iterator接口的数据结构有：Map、Set、Array、类数组等等，我们在使用他们的过程中，均能使用同一个接口访问每个元素就是运用了迭代器模式。<br>Iterator作用：</p>
+<ul>
+<li>为各种数据结构，提供一个统一的、简便的访问接口；</li>
+<li>使得数据结构的成员能够按某种次序排列；</li>
+<li>为新的遍历语法 for…of 实现循环遍历</li>
+</ul>
+</li>
+</ol>
+<H3> RxJS中的核心概念 </H3>
+
+<ol>
+<li><p>Observable (可观察对象): RxJS是观察者 + 迭代器模式的结合，Observable作为被观察者，是一个可调用的未来值或事件的集合。它能被多个observer订阅，每个订阅关系相互独立、互不影响。<br><a href=""><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://z3.ax1x.com/2020/12/24/r2Xwse.md.png"></a><br>Observables是使用 <code>Rx.Observable.create</code> 或创建操作符创建的，并使用<code>Observer</code>（观察者）来订阅它，然后执行它并发送 next / error / complete 通知给观察者，而且执行可能会被清理。这四个方面全部编码在 <code>Observables</code> 实例中，但某些方面是与其他类型相关的，像 Observer (观察者) 和 Subscription (订阅)。<br>Observable 的核心关注点：</p>
+<ul>
+<li>创建 Observables：Rx.Observable.create 是 Observable 构造函数的别名，它接收一个参数：subscribe 函数。下面的示例创建了一个 Observable，它每隔一秒会向观察者发送字符串 ‘hi’ 。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var observable = Rx.Observable.create(function subscribe(observer) &#123;</span><br><span class="line">    var id = setInterval(() =&gt; &#123;</span><br><span class="line">        observer.next(&#x27;hi&#x27;)</span><br><span class="line">    &#125;, 1000);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+<li>订阅 Observables<br>示例中的 Observable 对象 observable 可以订阅，像这样：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">observable.subscribe(x =&gt; console.log(x));</span><br></pre></td></tr></table></figure>
+订阅 Observable 像是调用函数, 并提供接收数据的回调函数。subscribe 调用是启动 “Observable 执行”的一种简单方式， 并将值或事件传递给本次执行的观察者。</li>
+<li>执行 Observables<br>Observable.create(function subscribe(observer) {…}) 中…的代码表示 “Observable 执行”，它是惰性运算，只有在每个观察者订阅后才会执行。随着时间的推移，执行会以同步或异步的方式产生多个值。<br>Observable 执行可以传递三种类型的值：- “Next” 通知：是最重要，也是最常见的类型。发送一个值，比如数字、字符串、对象等等，它们表示传递给观察者的实际数据。- “Error” 通知： 发送一个 JavaScript 错误 或 异常。- “Complete” 通知： 不再发送任何值。<br>在 Observable 执行中, 可能会发送零个到无穷多个 “Next” 通知。”Error” 和 “Complete” 可能只会发生一次，并且只会执行其中的一个。如果发送的是 “Error” 或 “Complete” 通知的话，那么之后不会再发送任何通知了。   <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var observable = Rx.Observable.create(function subscribe(observer) &#123;</span><br><span class="line">    observer.next(1);</span><br><span class="line">    observer.next(2);</span><br><span class="line">    observer.next(3);</span><br><span class="line">    observer.complete();</span><br><span class="line">    observer.next(4); // 因为违反规约，所以不会发送</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+Observable 严格遵守自身的规约，所以下面的代码不会发送 “Next” 通知 4。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var observable = Rx.Observable.create(function subscribe(observer) &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        observer.next(1);</span><br><span class="line">        observer.next(2);</span><br><span class="line">        observer.next(3);</span><br><span class="line">        observer.complete();</span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">        observer.error(err); // 如果捕获到异常会发送一个错误</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+在 subscribe 中可以用 try/catch 代码块来包裹任意代码，如果捕获到异常的话，会发送 “Error” 通知。</li>
+<li>清理 Observables<br>因为 Observable 执行可能会是无限的，并且观察者通常希望能在有限的时间内中止执行，所以我们需要一个 API 来取消执行。因为每个执行都是其对应观察者专属的，一旦观察者完成接收值，它必须要一种方法来停止执行，以避免浪费计算能力或内存资源。<br>当调用了 observable.subscribe ，观察者会被附加到新创建的 Observable 执行中。这个调用还返回一个对象，即 Subscription (订阅)。当你订阅（subscribe）了 Observable，你会得到一个 Subscription ，它表示进行中的执行。只要调用 unsubscribe() 方法就可以取消执行。<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var observable = Rx.Observable.from([10, 20, 30]);</span><br><span class="line">var subscription = observable.subscribe(x =&gt; console.log(x));</span><br><span class="line">// 稍后</span><br><span class="line">subscription.unsubscribe();</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>Observer (观察者): Observable 是多个值的生产者，并将值 push 给观察者，观察者就是由 Observable 发送的值的消费者。观察者只是一组回调函数的集合，每个回调函数对应一种 Observable 发送的通知类型：next、error 和 complete 。<br><a href=""><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://z3.ax1x.com/2020/12/19/rUu3h6.png"></a><br>一个典型的观察者对象如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> var observer = &#123;</span><br><span class="line">   next: x =&gt; console.log(&#x27;Observer got a next value: &#x27; + x),</span><br><span class="line">   error: err =&gt; console.error(&#x27;Observer got an error: &#x27; + err),</span><br><span class="line">   complete: () =&gt; console.log(&#x27;Observer got a complete notification&#x27;),</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>观察者只是有三个回调函数的对象，每个回调函数对应一种 Observable 发送的通知类型。<br>要使用观察者，需要把它提供给 Observable 的 subscribe 方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var observable = Rx.Observable.create(function (observer) &#123;</span><br><span class="line"> observer.next(1);</span><br><span class="line"> observer.next(2);</span><br><span class="line"> observer.next(3);</span><br><span class="line"> observer.complete();</span><br><span class="line">&#125;);</span><br><span class="line">observable.subscribe(observer);</span><br></pre></td></tr></table></figure></li>
+<li><p>Subscription (订阅): 表示 <code>Observable</code> 的执行。<code>Subscription</code> 有一个重要的方法，即 <code>unsubscribe</code>，它不需要任何参数，只是用来清理由 <code>Subscription</code> 占用的资源主要用于取消 <code>Observable</code> 的执行。</p>
+</li>
+<li><p>Operators (操作符): 是 <code>Observable</code> 类型上的方法，比如 .map(…)、.filter(…)、.merge(…)，等等。当操作符被调用时，它们不会改变已经存在的<code>Observable</code>实例。相反，它们返回一个新的<code>Observable</code>，它的<code>subscription</code>逻辑基于第一个 <code>Observable </code>。<br>操作符本质上是一个纯函数 (pure function)，它接收一个 Observable 作为输入，并生成一个新的 Observable 作为输出。<br>要解释操作符是如何工作的，文字描述通常是不足以描述清楚的。许多操作符都是跟时间相关的，它们可能会以不同的方式延迟(delay)、取样(sample)、节流(throttle)或去抖动值(debonce)。图表通常是更适合的工具。弹珠图是操作符运行方式的视觉表示，其中包含输入 Obserable(s) (输入可能是多个 Observable )、操作符及其参数和输出 Observable 。<br><a href=""><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://z3.ax1x.com/2020/12/19/rUmGUx.md.png"></a><br>官网操作符：<a target="_blank" rel="noopener" href="https://cn.rx.js.org/manual/overview.html#h213">https://cn.rx.js.org/manual/overview.html#h213</a><br>弹珠图：<a target="_blank" rel="noopener" href="https://rxmarbles.com/">https://rxmarbles.com/</a></p>
+</li>
+<li><p>Subject (主体): RxJS Subject 是一种特殊类型的 Observable，它允许将值多播给多个观察者，所以 Subject 是多播的，而普通的 Observables 是单播的(每个已订阅的观察者都拥有 Observable 的独立执行)。</p>
+<ul>
+<li>每个 Subject 都是 Observable：对于 Subject，你可以提供一个观察者并使用 subscribe 方法，就可以开始正常接收值。从观察者的角度而言，它无法判断 Observable 执行是来自普通的 Observable 还是 Subject 。<br>在下面的示例中，我们为 Subject 添加了两个观察者，然后给 Subject 提供一些值：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var subject = new Rx.Subject();</span><br><span class="line"></span><br><span class="line">subject.subscribe(&#123;</span><br><span class="line">next: (v) =&gt; console.log(&#x27;observerA: &#x27; + v)</span><br><span class="line">&#125;);</span><br><span class="line">subject.subscribe(&#123;</span><br><span class="line">next: (v) =&gt; console.log(&#x27;observerB: &#x27; + v)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">subject.next(1);</span><br><span class="line">subject.next(2);</span><br><span class="line">// observerA: 1</span><br><span class="line">// observerB: 1</span><br><span class="line">// observerA: 2</span><br><span class="line">// observerB: 2</span><br></pre></td></tr></table></figure></li>
+<li>每个 Subject 都是观察者：Subject 是一个有如下方法的对象： next(v)、error(e) 和 complete() 。要给 Subject 提供新值，只要调用 next(theValue)，它会将值多播给已注册监听该 Subject 的观察者们。<br>因为 Subject 是观察者，这也就在意味着你可以把 Subject 作为参数传给任何 Observable 的 subscribe 方法，如下面的示例所展示：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var subject = new Rx.Subject();</span><br><span class="line"></span><br><span class="line">subject.subscribe(&#123;</span><br><span class="line">next: (v) =&gt; console.log(&#x27;observerA: &#x27; + v)</span><br><span class="line">&#125;);</span><br><span class="line">subject.subscribe(&#123;</span><br><span class="line">next: (v) =&gt; console.log(&#x27;observerB: &#x27; + v)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">var observable = Rx.Observable.from([1, 2, 3]);</span><br><span class="line"></span><br><span class="line">observable.subscribe(subject);</span><br><span class="line">// observerA: 1</span><br><span class="line">// observerB: 1</span><br><span class="line">// observerA: 2</span><br><span class="line">// observerB: 2</span><br><span class="line">// observerA: 3</span><br><span class="line">// observerB: 3</span><br></pre></td></tr></table></figure>
+使用上面的方法，我们基本上只是通过 Subject 将单播的 Observable 执行转换为多播的。这也说明了 Subjects 是将任意 Observable 执行共享给多个观察者的唯一方式。</li>
+</ul>
+</li>
+<li><p>Schedulers (调度器): 调度器控制着何时启动 subscription 和何时发送通知。它由三部分组成：</p>
+<ul>
+<li>调度器是一种数据结构。 它知道如何根据优先级或其他标准来存储任务和将任务进行排序。</li>
+<li>调度器是执行上下文。 它表示在何时何地执行任务(举例来说，立即的，或另一种回调函数机制(比如 setTimeout 或 process.nextTick)，或动画帧)。</li>
+<li>调度器有一个(虚拟的)时钟。 调度器功能通过它的 getter 方法 now() 提供了“时间”的概念。在具体调度器上安排的任务将严格遵循该时钟所表示的时间。<br>举例如下：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">var observable = Rx.Observable.create(function (observer) &#123;</span><br><span class="line"> observer.next(1);</span><br><span class="line"> observer.next(2);</span><br><span class="line"> observer.next(3);</span><br><span class="line"> observer.complete();</span><br><span class="line">&#125;)</span><br><span class="line">.observeOn(Rx.Scheduler.async); // 调度控制</span><br><span class="line"></span><br><span class="line">console.log(&#x27;just before subscribe&#x27;);</span><br><span class="line">observable.subscribe(&#123;</span><br><span class="line"> next: x =&gt; console.log(&#x27;got value &#x27; + x),</span><br><span class="line"> error: err =&gt; console.error(&#x27;something wrong occurred: &#x27; + err),</span><br><span class="line"> complete: () =&gt; console.log(&#x27;done&#x27;),</span><br><span class="line">&#125;);</span><br><span class="line">console.log(&#x27;just after subscribe&#x27;);</span><br><span class="line">// just before subscribe</span><br><span class="line">// just after subscribe</span><br><span class="line">// got value 1</span><br><span class="line">// got value 2</span><br><span class="line">// got value 3</span><br><span class="line">// done</span><br></pre></td></tr></table></figure>
+从打印结果上来看，数据的发送时机的确已经由同步变成了异步，如果不进行调度方式修改，那么“just after subscribe”的打印应该是在数据发送完毕之后才会执行的。</li>
+</ul>
+</li>
+</ol>
+<H3> RxJS可以解决什么问题 </H3>
+
+<ol>
+<li>同步和异步的统一：RxJS 提供了功能非常强大且复杂的操作符（ Operator） 用来处理、组合 Observable，因此 RxJS 拥有十分强大的异步处理能力，几乎可以满足任何异步逻辑的需求，同步逻辑更不在话下。它也抹平了同步和异步之间的鸿沟。</li>
+<li>可组合的数据变更过程</li>
+<li>数据和视图的精确绑定：RxJS 的精髓在于推送数据。组件不需要写请求数据和更新数据的两套逻辑，只要订阅一次，就能得到现在和将来的数据，如此一来，就能更好地解耦视图层和数据层的逻辑。视图层从此不用再操心任何有关获取数据和更新数据的逻辑，只要从数据层订阅一次就可以获取到所有数据，从而可以只专注于视图层本身的逻辑。</li>
+<li>条件变更之后的自动重新计算</li>
+</ol>
+<H3> RxJS的使用 </H3>
+
+<p>示例一、控制一秒钟内最多点击一次</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// js版本</span><br><span class="line">var count = 0;</span><br><span class="line">var rate = 1000;</span><br><span class="line">var lastClick = Date.now() - rate;</span><br><span class="line">var button = document.querySelector(&#x27;button&#x27;);</span><br><span class="line">button.addEventListener(&#x27;click&#x27;, () =&gt; &#123;</span><br><span class="line">  if (Date.now() - lastClick &gt;= rate) &#123;</span><br><span class="line">    console.log(`Clicked $&#123;++count&#125; times`);</span><br><span class="line">    lastClick = Date.now();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// Rxjs版本</span><br><span class="line">import &#123; Observable &#125; from &#x27;rxjs&#x27;;</span><br><span class="line">var button = document.querySelector(&#x27;button&#x27;);</span><br><span class="line">Observable.fromEvent(button, &#x27;click&#x27;)</span><br><span class="line">  .throttleTime(1000)</span><br><span class="line">  .scan((count: number) =&gt; count + 1, 0)</span><br><span class="line">  .subscribe(count =&gt; console.log(`Clicked $&#123;count&#125; times`));</span><br></pre></td></tr></table></figure>
+
+<p>示例二、控制最大并发数：- 要求最大并发数 maxNum；- 每当有一个请求返回，就留下一个空位，可以增加新的请求；- 所有请求完成后，结果按照 urls 里面的顺序依次打出</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#123; Observable &#125; from &#x27;rxjs&#x27;;</span><br><span class="line">// import &#x27;rxjs/add/operator/mergeMap&#x27;;</span><br><span class="line"></span><br><span class="line">// 假设这是你的http请求函数</span><br><span class="line">function httpGet(url: string): Promise&lt;string&gt; &#123;</span><br><span class="line">  return new Promise(resolve =&gt;</span><br><span class="line">    setTimeout(() =&gt; resolve(`Result: $&#123;url&#125;`), 2000)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const array = [</span><br><span class="line">  &#x27;https://httpbin.org/ip&#x27;,</span><br><span class="line">  &#x27;https://httpbin.org/user-agent&#x27;,</span><br><span class="line">  &#x27;https://httpbin.org/delay/3&#x27;,</span><br><span class="line">  &#x27;https://httpbin.org/abnet&#x27;,</span><br><span class="line">  &#x27;https://httpbin.org/s&#x27;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">// mergeMap是专门用来处理并发处理的rxjs操作符</span><br><span class="line">// mergeMap第二个参数2的意思是，from(array)每次并发量是2，只有promise执行结束才接着取array里面的数据</span><br><span class="line">// mergeMap第一个参数httpGet的意思是每次并发，从from(array)中取的数据如何包装，这里是作为httpGet的参数</span><br><span class="line">const source = Observable.from(array)</span><br><span class="line">  .mergeMap(httpGet, 2)</span><br><span class="line">  .subscribe(val =&gt; console.log(val));</span><br></pre></td></tr></table></figure>
+<p>示例三、请求依赖并发：发起一个用户登录请求，成功后再发送3个查询请求（资料,邮件,消息），最后将结果合并输出结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#123; Observable &#125; from &#x27;rxjs&#x27;;</span><br><span class="line">const loginRequest = new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">    setTimeout(function () &#123;</span><br><span class="line">        resolve(&#123;sessionId:&#x27;xxx-xxx-xxx&#x27;&#125;)</span><br><span class="line">    &#125;, 2000);</span><br><span class="line">&#125;);</span><br><span class="line">const queryInfoRequest = function (sessionId) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">            setTimeout(function () &#123;</span><br><span class="line">                resolve(&#123;</span><br><span class="line">                    id:1,</span><br><span class="line">                    nickName:&#x27;lake&#x27;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;, 1000)</span><br><span class="line">        &#125;</span><br><span class="line">    )</span><br><span class="line">&#125;;</span><br><span class="line">const queryEmailRequest = function (sessionId) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">            setTimeout(function () &#123;</span><br><span class="line">                resolve([</span><br><span class="line">                    &#123;id:1,title:&#x27;hi&#x27;,content:&#x27;I miss you&#x27;&#125;,</span><br><span class="line">                    &#123;id:2,title:&#x27;are you there&#x27;,content:&#x27;how are you doing&#x27;&#125;</span><br><span class="line">                    ])</span><br><span class="line">            &#125;, 1000)</span><br><span class="line">        &#125;</span><br><span class="line">    )</span><br><span class="line">&#125;;</span><br><span class="line">const queryMessageRequest = function (sessionId) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">            setTimeout(function () &#123;</span><br><span class="line">                resolve([</span><br><span class="line">                    &#123;id:1,type:&#x27;TEXT&#x27;,content:&#x27;I am ok&#x27;&#125;,</span><br><span class="line">                    &#123;id:2,type:&#x27;TEXT&#x27;,content:&#x27;yeah&#x27;&#125;</span><br><span class="line">                ])</span><br><span class="line">            &#125;, 1000)</span><br><span class="line">        &#125;</span><br><span class="line">    )</span><br><span class="line">&#125;;</span><br><span class="line">const oldTime = new Date().getTime();</span><br><span class="line">Observable.fromPromise(loginRequest)</span><br><span class="line">    .flatMap(sessionId=&gt;&#123;</span><br><span class="line">        return [</span><br><span class="line">            Observable.fromPromise(queryInfoRequest(sessionId)),</span><br><span class="line">            Observable.fromPromise(queryEmailRequest(sessionId)),</span><br><span class="line">            Observable.fromPromise(queryMessageRequest(sessionId)),</span><br><span class="line">        ];</span><br><span class="line">    &#125;)</span><br><span class="line">    .combineAll()</span><br><span class="line">    .subscribe(value =&gt; &#123;</span><br><span class="line">        console.log(value);</span><br><span class="line">        console.log(&quot;总运行时长:&quot;+(new Date() - oldTime));</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<H3> 总结 </H3>
+
+<ol>
+<li>异步操作和同步操作最大的区别就是异步有时序。我们可以把同步操作理解为：数据+函数；那么异步操作就是：数据+函数+时序。RxJS做的事情就是把时序抽离成一根时间轴，在这根时间轴上进行同步操作，而异步相关的时序处理就交给Rx提供的各种operator。所以如果你的应用是一个时序密集的应用，那么使用Rx能帮你理清楚复杂的异步逻辑。反之，如果异步操作之间没有太多的联系，时序简单，则不那么需要使用RxJS。</li>
+<li>RxJS 最核心的地方也不是一堆花哨的操作符，而是它的响应式的思想，它是能改变你整个编程思路的东西。如果仅仅是用 RxJS 来解决应用中的一些孤立的异步场景，比如拖拽、节流之类的，用 RxJS 是有点大材小用了。因为你不用 RxJS 也可以实现，顶多就是没有 RxJS 优雅而已。最能够体现 RxJS 威力的还是那些有大量的异步数据更新，数据之间还互相有依赖关系的大型前端应用。这种场景下，你甚至可以基于 RxJS 设计一整套数据管理的方案，当然也不要给本不适合RxJS理念的场景强加使用，这样实际带来的效果可能并不明显。</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Galaxy大宝</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mygit1220.github.io/2021/11/23/RxJs%E7%AE%80%E8%BF%B0/">https://mygit1220.github.io/2021/11/23/RxJs%E7%AE%80%E8%BF%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://mygit1220.github.io" target="_blank">Galaxy大宝's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a><a class="post-meta__tags" href="/tags/RxJS/">RxJS</a></div><div class="post_share"><div class="social-share" data-image="/img/rxjs.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpeg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/wechat.jpeg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2021/11/12/JS%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%932/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="/img/jsImg/js4.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JS开发常用工具函数总结（下）</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text"> 关于RxJS </span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text"> 一些前置知识点梳理 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text"> RxJS中的核心概念 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text"> RxJS可以解决什么问题 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text"> RxJS的使用 </span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text"> 总结 </span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Galaxy大宝</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">简</button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(() => {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'forest',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: 'e9c69d1b5fba4c157bcf',
+      clientSecret: '9919606e4c709fa0a7eddd3acc4f1be4e5831439',
+      repo: 'mygit1220.github.io',
+      owner: 'mygit1220',
+      admin: ['mygit1220'],
+      id: '41db07db1214d209d4b8604b3754fb22',
+      language: 'zh-CN',
+      perPage: 10,
+      distractionFreeMode: true,
+      pagerDirection: 'last',
+      createIssueManually: true,
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
